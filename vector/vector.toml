@@ -1,0 +1,14 @@
+[sources.nginx]
+type = "file"
+ignore_older_secs = 600
+include = [ "/var/log/nginx/access_dev.log" ]
+read_from = "beginning"
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["nginx"]
+endpoint = "http://elasticsearch:9200"
+mode = "bulk"
+# `type` が elasticsearch 7系では非推奨・8系では削除された
+suppress_type_name = true
+compression = "none"
